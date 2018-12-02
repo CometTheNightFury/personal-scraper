@@ -22,7 +22,7 @@ app.listen(port, () => {
 //endpoint
 
 app.get('cat/:keyword', (req, res) => {
-  var keyword = req. params.keyword;
+  var keyword = req.params.keyword;
 
   function findCatImage(keyword) {
     var nightmare = Nightmare({show:true});
