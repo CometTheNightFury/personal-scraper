@@ -49,6 +49,14 @@ app.get('cat/:keyword', (req, res) => {
       .then(function (images) {
         res.json(images);
       })
-      .catch()
+      .catch(function (error) {
+        console.error('Search failed:', error);
+      });
   }
+  findCatImage(keyword);
+  var nightmare = Nightmare({show:true});
+});
+
+app.listen(port, () => {
+  console.log(`app running on ${port}`);
 })
