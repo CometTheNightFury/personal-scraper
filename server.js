@@ -18,3 +18,37 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`app running on ${port}`);
 });
+
+//endpoint
+
+app.get('cat/:keyword', (req, res) => {
+  var keyword = req. params.keyword;
+
+  function findCatImage(keyword) {
+    var nightmare = Nightmare({show:true});
+
+    return nightmare
+      .goto('https://www.google.com')
+      .insert('input[title="Search"]', `cat ${keyword}`)
+      .click('input[value="Google Search"]')
+      .wait('a.q.qs')
+      .click('a.q.qs')
+      .wait('div#res.med')
+      .evaluate(function(){
+        var photoDivs = document.querySelectorAll('img.rg_ic');
+        var list = [].slice.call(photoDivs);
+
+        return list.map(function(div){
+          return div.src;
+        });
+      })
+      .end()
+      .then(function (result){
+        return result.slice(1, 5);
+      })
+      .then(function (images) {
+        res.json(images);
+      })
+      .catch()
+  }
+})
